@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        ">
+       
+       <!-- 实现spring的扫描当前项目的根包 -->
+       <context:component-scan base-package="org.shlg.news"></context:component-scan>
+       
+       <!-- 实现Spring支持注解方式 -->
+       <context:annotation-config></context:annotation-config>
+       
+       <!-- 使用外部数据库属性包 -->
+       <context:property-placeholder location="classpath:property/mysql.properties"/>
+       
+       <!-- 配置数据源 -->
+       <bean id="MySqlDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+       		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+       		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db_newsbulletin?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"></property>
+       		<property name="user" value="admin"></property>
+       		<property name="password" value="admin"></property>
+       		
+       		<!-- 其他配置 初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+       		 <property name="initialPoolSize" value="3"></property>
+
+			 <!-- 连接池中保留的最小连接数。Default: 3 -->
+			
+			 <property name="minPoolSize" value="3"></property>
+			
+			 <!-- 连接池中保留的最大连接数。Default: 15 -->
+			
+			 <property name="maxPoolSize" value="10000"></property>
+			
+			 <!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+			
+			 <property name="acquireIncrement" value="3"></property>
+			
+			 <!-- 控制数据源内加载的PreparedStatements数量。如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+			
+			 <property name="maxStatements" value="8"></property>
+			
+			 <!-- maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0 -->
+			
+			 <property name="maxStatementsPerConnection" value="5"></property>
+			
+			 <!-- 最大空闲时间,1800秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+			
+			 <property name="maxIdleTime" value="1800"></property>
+			 
+       </bean>
+       <!-- 配置数据源结束 -->
+       
+       <!-- <bean id="MySqlDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+              <property name="driverClassName"><value>com.mysql.jdbc.Driver</value></property> 
+              <property name="url"><value>jdbc:mysql://180.97.83.230:3306/db_newsbulletin?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</value></property> 
+              <property name="username"><value>root</value></property> 
+              <property name="password"><value>yd123456</value></property> 
+       </bean> -->
+       
+       <!-- 配置Session工厂 -->
+       <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+       		<property name="dataSource">
+       			<ref bean="MySqlDataSource"/>
+       		</property>
+       		<!-- 配置hibernate的属性 -->
+       		<property name="hibernateProperties">
+       			<props>
+       				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+       				<prop key="hibernate.show_sql">true</prop>
+       				<prop key="hibernate.format_sql">true</prop>
+       				<prop key="hibernate.hbm2ddl.auto">update</prop>
+       				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+       				<prop key="hibernate.connection.autocommit">false</prop>
+       			</props>
+       		</property>
+       		
+       		<!-- 用于实验的实体类 -->
+       		<!-- <property name="packagesToScan">
+       			<list>
+       				<value>org.shlg.news.domain.User</value>
+       				<value>org.shlg.news.domain.News</value>
+       			</list>
+       		</property> -->
+       		
+       		<property name="configLocations">
+       			<list>
+       				<value>
+       					classpath:hibernate/hibernate.cfg.xml
+       				</value>
+       			</list>
+       		</property>
+       </bean>
+       
+    <!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 配置事务注解驱动器 -->
+	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<!-- 配置事务代理类 -->
+	<bean id="transactionBese" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true" abstract="true">
+		<property name="transactionManager" ref="transactionManager"></property>
+		<property name="transactionAttributes">
+			<props>
+				 <prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+				 <prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				 <prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+				 <prop key="modify*">PROPAGATION_REQUIRED,-Exception</prop>
+				 <prop key="delete*">PROPAGATION_REQUIRED,-Exception</prop>
+				 <prop key="query*">PROPAGATION_REQUIRED,-Exception</prop>
+			</props>
+		</property> 
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- ************************************配置用户相关Dao层和Service层-开始***************************************** -->
+	<!-- 配置UserDaoImpl的底层实现 -->
+ 	<bean id="userDao" class="org.shlg.news.daoImpl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 配置UserServiceImpl的底层实现 -->
+	<bean id="userServiceBase" class="org.shlg.news.serviceImpl.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	<!-- 配置UserService支持事务管理 -->
+	<bean id="userService" parent="transactionBese">
+		<property name="target" ref="userServiceBase"></property>
+	</bean>
+	<!-- ************************************配置用户相关Dao层和Service层-结束***************************************** -->
+	
+	<!-- ************************************配置新闻相关Dao层和Service层-开始***************************************** -->
+	<!-- 配置NewsDaoImpl的底层实现 -->
+ 	<bean id="newsDao" class="org.shlg.news.daoImpl.NewsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 配置NewsServiceImpl的底层实现 -->
+	<bean id="newsServiceBase" class="org.shlg.news.serviceImpl.NewsServiceImpl">
+		<property name="newsDao" ref="newsDao"></property>
+	</bean>
+	<!-- 配置UserService支持事务管理 -->
+	<bean id="newsService" parent="transactionBese">
+		<property name="target" ref="newsServiceBase"></property>
+	</bean>
+	<!-- ************************************配置新闻相关Dao层和Service层-结束***************************************** -->
+	
+	<!-- ************************************配置联系我们相关Dao层和Service层-开始***************************************** -->
+	<!-- 配置NewsDaoImpl的底层实现 -->
+ 	<bean id="contactUsDao" class="org.shlg.news.daoImpl.ContactUsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 配置NewsServiceImpl的底层实现 -->
+	<bean id="contactUsServiceBase" class="org.shlg.news.serviceImpl.ContactUsServiceImpl">
+		<property name="contactUsDao" ref="contactUsDao"></property>
+	</bean>
+	<!-- 配置UserService支持事务管理 -->
+	<bean id="contactUsService" parent="transactionBese">
+		<property name="target" ref="contactUsServiceBase"></property>
+	</bean>
+	<!-- ************************************配置联系我们相关Dao层和Service层-结束***************************************** -->
+	
+	<!-- ************************************配置留言相关Dao层和Service层-开始***************************************** -->
+	<!-- 配置LeaveMessageDao的底层实现 -->
+ 	<bean id="leavaMessageDao" class="org.shlg.news.daoImpl.LeaveMessageDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 配置LeaveMessageServiceImpl的底层实现 -->
+	<bean id="leaveMessageServiceBase" class="org.shlg.news.serviceImpl.LeaveMessageServiceImpl">
+		<property name="leavaMessageDao" ref="leavaMessageDao"></property>
+	</bean>
+	<!-- 配置LeaveMessageService支持事务管理 -->
+	<bean id="leaveMessageService" parent="transactionBese">
+		<property name="target" ref="leaveMessageServiceBase"></property>
+	</bean>
+	<!-- ************************************配置留言相关Dao层和Service层-结束***************************************** -->
+</beans>

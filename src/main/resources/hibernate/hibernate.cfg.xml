@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 注释型配置文件 -->
+		<!-- <mapping class="com.ccy.model.Course"/> -->
+		
+		<!-- xml文件型配置文件 -->
+		<!-- <mapping resource="com/ccy/model/Course.hbm.xml"/> -->
+
+		<!-- 配置用户信息表 -->
+		<mapping class="org.shlg.news.domain.User"/>
+		
+		<!-- 配置新闻信息表 -->
+		<mapping class="org.shlg.news.domain.News"/>
+				
+		<!-- 配置联系我们信息表 -->
+		<mapping class="org.shlg.news.domain.ContactUs"/>
+		
+		<!-- 配置留言信息表 -->
+		<mapping class="org.shlg.news.domain.LeaveMessage"/>
+		
+		<!-- 配置师资团队表 -->
+		<mapping class="org.shlg.news.domain.TearcherTeam"/>
+		
+		<!-- 配置关注方式表 -->
+		<mapping class="org.shlg.news.domain.Focus"/>
+			
+	</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        ">
+        
+        <!-- MVC注解驱动 -->
+        <mvc:annotation-driven></mvc:annotation-driven>
+        
+        <!-- 扫描控制层Controller的位置 -->
+        <context:component-scan base-package="org.shlg.news.control"></context:component-scan>
+        
+        <!-- SimpleControllerHandlerAdapter是一个处理器适配器，所有的处理适配器都要实现HandlerAdapter接口 -->
+		<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+			
+		<!-- 配置 annotation类型的处理映射器-->
+	 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	 	
+	 	<!-- 配置annotation类型的处理适配器 -->
+	 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+        
+        <!-- 配置视图解析层 -->
+        <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        	<!-- <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property> -->
+        	<!-- 配置视图层所在的位置，项目没有建的话请在项目的WebRoot下面建立相应的文件夹 -->
+        	<!-- 声明网页的前缀 -->
+        	<property name="prefix" value="/"></property>
+        	<!-- 声明网页的后缀 -->
+        	<property name="suffix" value=".jsp"></property>
+        </bean>
+        
+        <!-- 实现只拦截*.do的请求，不拦截.jsp的页面请求 -->
+        <mvc:default-servlet-handler/>
+        
+        <!-- 启动SpringMVC的注解配置 -->
+        <context:annotation-config />
+        
+        <!-- 上传或下载 -->
+		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="defaultEncoding" value="utf-8"></property>
+			<property name="maxUploadSize" value="10485760000"></property>
+			<property name="maxInMemorySize" value="40960"></property>
+		</bean>
+		
+</beans>
