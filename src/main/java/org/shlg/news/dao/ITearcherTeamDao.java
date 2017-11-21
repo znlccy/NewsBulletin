@@ -45,7 +45,7 @@ public interface ITearcherTeamDao {
 	/**
 	 * 定义通过教师名删除教师模块
 	 */
-	public boolean deleteTearcherName(String tearcherName);
+	public boolean deleteTearcherName(TearcherTeam tearcherTeam);
 	
 	/**
 	 * 定义通过教师Id删除教师模块

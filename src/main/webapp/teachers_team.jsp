@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<div class="block_top_menu">
                             	<ul>
                                 	<li class="current"><a href="index.jsp">首页</a></li>
-                                    <li><a href="site_navigation.jsp">网站地图</a></li>
+                                    <!-- <li><a href="site_navigation.jsp">网站地图</a></li> -->
                                     <li><a href="confidentiality_agreement.jsp">用户注册协议</a></li>
                                     <li><a href="contact_us.jsp">联系我们</a></li>
                                 </ul>
@@ -498,22 +498,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     	<div class="block_subscribes_sidebar">
                         	<div class="service">
                             	<a href="#" class="qqzone" onclick="shareQQzone()">
-                                	<span class="num">11 234</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">QQ空间</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                             
                             <div class="service">
                             	<a href="#" class="xl" onclick="shareSina()">
-                                	<span class="num">781</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">新浪微博</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                             
                             <div class="service" onclick="shareQQ()">
                             	<a href="#" class="qq">
-                                	<span class="num">341</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">QQ</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                         </div>
@@ -526,18 +526,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<div class="article">
 								<div class="pic">
 									<a href="#" class="w_hover">
-										<img src="images/news_post.png" alt="" />
+										<img src="images/news_post.png" onload="getPostNews()" alt="" />
 										<span></span>
 									</a>
 								</div>
                                         
 								<div class="text">
-									<p class="title"><a href="#">不忘初心，牢记使命，启航上理“新时代”</a></p>
-									<div class="date"><p>11 July, 2012</p></div>
+									<p class="title"><a href="#" id="newsone">没有新闻推送</a></p>
+									<div class="date"><p id="newsonedate">创建时间为空</p></div>
                                     <div class="icons">
                                     	<ul>
                                         	<li><a href="#" class="views">41</a></li>
-                                            <li><a href="#" class="comments">22</a></li>
+                                            <!-- <li><a href="#" class="comments">22</a></li> -->
                                         </ul>
                                     </div>
 								</div>
@@ -553,12 +553,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
                                         
 								<div class="text">
-									<p class="title"><a href="#">学校认真组织干部师生收看党的十九大开幕式盛况</a></p>
-									<div class="date"><p>07 July, 2012</p></div>
+									<p class="title"><a href="#" id="newstwo">没有推送新闻</a></p>
+									<div class="date"><p id="newstwodate">创建时间为空</p></div>
                                     <div class="icons">
                                     	<ul>
                                         	<li><a href="#" class="views">24</a></li>
-                                            <li><a href="#" class="comments">16</a></li>
+                                            <!-- <li><a href="#" class="comments">16</a></li> -->
                                         </ul>
                                     </div> 
 								</div>
@@ -574,12 +574,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
                                         
 								<div class="text">
-									<p class="title"><a href="#">上海理工大学马克思主义经典著作阅读马拉松侧记</a></p>
-									<div class="date"><p>05 July, 2012</p></div>
+									<p class="title"><a href="#" id="newsthree">没有推送新闻</a></p>
+									<div class="date" id="newsthreedate"><p>创建时间为空</p></div>
                                     <div class="icons">
                                     	<ul>
                                         	<li><a href="#" class="views">33</a></li>
-                                            <li><a href="#" class="comments">25</a></li>
+                                            <!-- <li><a href="#" class="comments">25</a></li> -->
                                         </ul>
                                     </div>
 								</div>
@@ -593,7 +593,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<h4>热点视频</h4>
                             
                             <div class="content">
-                            	<a href="#" class="view_all">显示所有视频</a>
+                            	<!-- <a href="#" class="view_all">显示所有视频</a> -->
                             	<div class="media"><a href="http://www.youtube.com/watch?v=ySIvism2af8" class="general_pic_hover play no_fx" data-rel="prettyPhoto" title="Popular Video"><img src="images/pic_pop_video.jpg" alt="" /></a></div>
                                 <p><a href="blog_post_w_video.html">第十四届“秋炫沪江”研究生科技文化节开幕式暨职业启航公开课第三讲隆重举行
 </a> <img src="images/icon_video.gif" alt="" /></p>
@@ -602,7 +602,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             
                             <div class="info">
                             	<ul>
-                                	<li class="comments"><a href="#">115</a></li>
+                                	<!-- <li class="comments"><a href="#">115</a></li> -->
                                     <li class="views"><a href="#">220</a></li>
                                 </ul>
                             </div>
@@ -648,7 +648,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<h4>热点图片</h4>
                             
                             <div class="content">
-                            	<a href="#" class="view_all">显示所有图片</a>
+                            	<!-- <a href="#" class="view_all">显示所有图片</a> -->
                             	<div class="media"><a href="images/pic_pop_photo_big.jpg" class="general_pic_hover zoom no_fx" data-rel="prettyPhoto" title="Popular Photo"><img src="images/pic_pop_photo.jpg" alt="" /></a></div>
                                 <p><a href="blog_post_w_slider.html">机械设计制造及其自动化专业顺利通过专家组进校考查</a> <img src="images/icon_photo.gif" alt="" /></p>
                                 <p class="date">11 July, 2012</p>
@@ -656,7 +656,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             
                             <div class="info">
                             	<ul>
-                                	<li class="comments"><a href="#">100</a></li>
+                                	<!-- <li class="comments"><a href="#">100</a></li> -->
                                     <li class="views"><a href="#">134</a></li>
                                 </ul>
                             </div>
@@ -724,7 +724,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<div class="block_menu_footer">
                             	<ul>
                                 	<!-- <li><a href="index.jsp">首页</a></li> -->
-                                    <li><a href="site_navigation.jsp">网站地图</a></li>
+                                    <!-- <li><a href="site_navigation.jsp">网站地图</a></li> -->
                                     <li><a href="confidentiality_agreement.jsp">用户注册协议</a></li>
                                     <li><a href="contact.jsp">联系我们</a></li>
                                 </ul>

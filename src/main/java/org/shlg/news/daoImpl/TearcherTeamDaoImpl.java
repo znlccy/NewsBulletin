@@ -151,11 +151,12 @@ public class TearcherTeamDaoImpl implements ITearcherTeamDao {
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
 			if(tx!=null)
 			{
 				tx.rollback();
 			}
+		} finally {
+			
 			if(session!=null)
 			{
 				session.close();
@@ -234,15 +235,12 @@ public class TearcherTeamDaoImpl implements ITearcherTeamDao {
 	 * @see org.shlg.news.dao.ITearcherTeam#deleteTearcherName(java.lang.String)
 	 */
 	@Override
-	public boolean deleteTearcherName(String tearcherName) {
+	public boolean deleteTearcherName(TearcherTeam tearcherTeam) {
 		// TODO Auto-generated method stub
 		session = getSession();
 		boolean flag = false;
 		try {
-			
 			tx = session.beginTransaction();
-			TearcherTeam tearcherTeam = this.queryTearcherName(tearcherName);
-			Hibernate.initialize(tearcherTeam);
 			session.delete(tearcherTeam);
 			flag = true;
 			tx.commit();
@@ -304,7 +302,9 @@ public class TearcherTeamDaoImpl implements ITearcherTeamDao {
 	public boolean modifyTearcherTeam(TearcherTeam tearcherTeam) {
 		// TODO Auto-generated method stub
 		boolean flag = false;
+		session = getSession();
 		try {
+			tx = session.beginTransaction();
 			session.update(tearcherTeam);
 			flag = true;
 			tx.commit();

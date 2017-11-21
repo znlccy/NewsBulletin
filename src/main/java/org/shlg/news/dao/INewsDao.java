@@ -95,4 +95,12 @@ public interface INewsDao {
 	 */
 	public boolean modifyNews(News news);
 	
+	/**
+	 * 插入新闻图片
+	 * @param filePath
+	 * @param newsId
+	 * @return
+	 */
+	public boolean addNewsPicture(String filePath,News news);
+	
 }

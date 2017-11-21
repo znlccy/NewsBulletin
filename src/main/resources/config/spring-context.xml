@@ -188,4 +188,5 @@
 		<property name="target" ref="leaveMessageServiceBase"></property>
 	</bean>
 	<!-- ************************************配置留言相关Dao层和Service层-结束***************************************** -->
+	
 </beans>

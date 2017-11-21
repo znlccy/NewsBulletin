@@ -1,10 +1,13 @@
 package org.shlg.news.control;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -72,19 +76,64 @@ public class NewsControl {
 	 * @param news
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public void addNews(@ModelAttribute("newsForm") News news) {
+	@ResponseBody
+	public Map<String, Object> addNews(@RequestBody Map dataMap) {
 		// TODO Auto-generated method stub
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String newsTitle = ((String) dataMap.get("newsTitle")).trim();
+		String newsContent = ((String) dataMap.get("newsContent")).trim();
+		String newsType = ((String) dataMap.get("newsType")).trim();
+		String author = (String) dataMap.get("author");
+		String newsPicture = (String) dataMap.get("newsPicture");
+		
+		System.err.println("新闻标题:"+newsTitle+"\t新闻内容:"+newsContent+"\t新闻类型:"+newsType+"\t新闻作者:"+author);
+		
+		if((newsTitle.equals("") || "".equals(newsTitle)) && (newsContent.equals("") || "".equals(newsContent))) 
+		{
+			status = "401";
+			message = "您输入的新闻标题和内容为空!";
+		}
+		else
+		{
+			
+			/*File f = new File(this.getClass().getResource("/").getPath());*/ 
+			News news = new News();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			String now = sdf.format(new Date());
+			String newsId = now;
+			news.setNewsId(newsId);
+			news.setAuthor(author);
+			news.setNewsContent(newsContent);
+			news.setNewsTitle(newsTitle);
+			news.setNewsType(newsType);
+			news.setNewsFollow(0);
+			news.setNewsPrivilege(0);
+			news.setNewsSecriber(0);
+			news.setNewsCreateTime(new Date());
+			String filePath = "\""+newsPicture+"\"";
+			System.err.println("新闻图片路径"+newsPicture);
+			
+			newsService.addNewsPicture(filePath, news);
 
+			status = "200";
+			message = "添加新闻成功";
+		}
+		map.put("status", status);
+		map.put("message", message);
+		return map;
 	}
 	
 	/**
 	 * 实现查询新闻功能
 	 * @param news
 	 */
-	@RequestMapping(value="/query",method=RequestMethod.GET)
+	@RequestMapping(value="/query",method=RequestMethod.POST)
 	public void queryNews(@ModelAttribute("newsForm") News news) {
 		// TODO Auto-generated method stubv
 		
+		newsService.queryNewsContent(news.getNewsContent());
 	}
 	
 	/**
@@ -92,9 +141,27 @@ public class NewsControl {
 	 * @param news
 	 */
 	@RequestMapping(value="/delete",method=RequestMethod.DELETE)
-	public void deleteNews(@ModelAttribute("newsForm") News news) {
+	@ResponseBody
+	public Map<String, Object> deleteNews(@RequestBody Map dataMap) {
 		// TODO Auto-generated method stub
-
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		String newsTitle = (String) dataMap.get("newsTitle");
+		String newsContent = (String) dataMap.get("newsContent");
+		
+		List<News> news = (List<News>) newsService.queryNewsSql("from News where newsTitle like"+"'%"+newsTitle+"%'"+ "or newsContent like"+"'%"+newsContent+"%'");
+		if(news.size()==0) {
+			status = "401";
+			message = "数据库中不存在这个新闻";
+			System.err.println("没有查询到新闻内容");
+		}
+		else {
+			/*newsService.deleteNewsContent();*/
+			System.err.println("查询到新闻内容");
+		}	
+		map.put("status", status);
+		map.put("message", message);
+		return map;
 	}
 	
 	/**
@@ -104,7 +171,7 @@ public class NewsControl {
 	@RequestMapping(value="modify",method=RequestMethod.PUT)
 	public void modifyNews(@ModelAttribute("newsForm") News news) {
 		// TODO Auto-generated method stub
-
+		newsService.modifyNews(news);
 	}
 	
 	@RequestMapping(value="getpostnews",method=RequestMethod.GET)

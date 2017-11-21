@@ -96,9 +96,9 @@ public class TearcherTeamServiceImpl implements ITearcherTeamService {
 	 * @see org.shlg.news.service.ITearcherTeamService#deleteTearcherName(java.lang.String)
 	 */
 	@Override
-	public boolean deleteTearcherName(String tearcherName) {
+	public boolean deleteTearcherName(TearcherTeam tearcherTeam) {
 		// TODO Auto-generated method stub
-		return tearcherTeamDao.deleteTearcherName(tearcherName);
+		return tearcherTeamDao.deleteTearcherName(tearcherTeam);
 	}
 
 	/* 

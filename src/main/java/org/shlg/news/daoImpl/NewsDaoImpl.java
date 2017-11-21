@@ -1,5 +1,14 @@
 package org.shlg.news.daoImpl;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +21,8 @@ import org.hibernate.Transaction;
 import org.shlg.news.dao.INewsDao;
 import org.shlg.news.domain.News;
 import org.shlg.news.domain.User;
+import org.shlg.news.util.DBUtil;
+import org.shlg.news.util.ImageUtil;
 import org.shlg.news.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -83,7 +94,7 @@ public class NewsDaoImpl implements INewsDao {
 		boolean flag = false;
 		try {
 			tx = session.beginTransaction();
-			int i = (Integer) session.save(news);
+			session.save(news);
 			Hibernate.initialize(news);
 			flag = true;
 			tx.commit();
@@ -98,6 +109,51 @@ public class NewsDaoImpl implements INewsDao {
 			if(session!=null) {
 				session.close();
 			}
+		}
+		return flag;
+	}
+	
+	/* 
+	 * 插入新闻图片功能
+	 * (non-Javadoc)
+	 * @see org.shlg.news.dao.INewsDao#addNewsPicture(java.lang.String, java.lang.String)
+	 */
+	public boolean addNewsPicture(String filePath,News news) {
+		boolean flag = false;
+		Connection conn = null;
+	    PreparedStatement ps = null;
+	    FileInputStream in = null;
+		try {
+			in = ImageUtil.readImage("D:/WeChat Files/Km818824/Attachment/387cc0ce76063d5e4da5b769956012db_t.jpg");
+	        conn = DBUtil.getConn();
+	        String sql = "insert into tb_news (newsId,newsTitle,newsContent,newsType,newsCreateTime,author,newsPicture)values(?,?,?,?,?,?,?)";
+	        ps = conn.prepareStatement(sql);
+	        ps.setString(1, news.getNewsId());
+	        ps.setString(2, news.getNewsTitle());
+	        ps.setString(3, news.getNewsContent());
+	        ps.setString(4, news.getNewsType());
+	        ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+	        ps.setString(6, news.getAuthor());
+	        ps.setBinaryStream(7, in, in.available());
+	        int count = ps.executeUpdate();
+	        if (count > 0) {
+	            System.out.println("插入成功！");
+	            flag = true;
+	        } else {
+	            System.out.println("插入失败！");
+	        }
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConn(conn);
+	         if (null != ps) {
+	             try {
+	                 ps.close();
+	             } catch (SQLException e) {
+	                 e.printStackTrace();
+	             }
+	         }
 		}
 		return flag;
 	}
@@ -348,7 +404,7 @@ public class NewsDaoImpl implements INewsDao {
 		try {
 			tx = session.beginTransaction();
 			query = session.createQuery("from News");
-			news = query.list(); 
+			news = (List<News>)query.list(); 
 			Hibernate.initialize(news);
 			tx.commit();
 		} catch (Exception e) {

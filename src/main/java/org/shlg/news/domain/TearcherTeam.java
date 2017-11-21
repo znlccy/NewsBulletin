@@ -62,7 +62,7 @@ public class TearcherTeam {
 	private String contactStyle;
 	
 	/**
-	 * 声明教师图片z
+	 * 声明教师图片
 	 */
 	private byte[] tearcherPicture;
 	

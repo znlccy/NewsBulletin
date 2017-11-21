@@ -122,6 +122,96 @@ script type="text/javascript" src="layout/js/main.js"></script>
 		var sharesinastring = 'http://v.t.qq.com/share/share.php?title=' + $("#title").val() + '&url=' + $("#url").val() + '&site="QQ微博"';
 		window.location.href = sharesinastring;
 	}
+	
+	function search(){
+		/* var contents = $trim($("#content").val()); */
+		var search_content = document.getElementById("search_content");
+		
+		var data = {
+			search_content:search_content				
+		};
+		
+		$.ajax({
+			type:"GET",
+			url:"http://localhost:8080/NewsBulletin/user/search",
+			data:data,
+			dataType:'json',
+			success:function(map){
+				var status = JSON.stringify(map.status);
+				var message = JSON.stringify(map.message);
+				var status_suceess = JSON.stringify("200");
+				if(status==status_suceess) {
+					window.location.href="http://localhost:8080//NewsBulletin/admin/search_content_display.jsp"
+				}
+			}
+		});
+	}
+	
+	function getPostNews(){
+		var newsContent = document.getElementById("newsdata");
+		
+		var data = {
+			newsContent:newsContent
+		}
+		$.ajax({
+			type:"GET",
+			url:"http://localhost:8080//NewsBulletin/news/getpostnews",
+			data:data,
+			dataType:'json',
+			success:function(map){
+				var status = JSON.stringify(map.status);
+				var status_null = JSON.stringify("403");
+				var status_success = JSON.stringify("200");
+				var status_error = JSON.stringify("404");
+				if(status==status_null)
+				{
+					document.getElementById("newsone").innerHTML=JSON.stringify(map.newsone);
+					document.getElementById("newstwo").innerHTML=JSON.stringify(map.newstwo);
+					document.getElementById("newsthree").innerHTML=JSON.stringify(map.newsthree);
+				} else if(status==status_success){
+					if(JSON.stringify(map.newsone)=="")
+					{
+						document.getElementById("newsone").innerHTML="没有推送新闻!";	
+					} else if(JSON.stringify(map.newstwo)=="")
+					{
+						document.getElementById("newstwo").innerHTML="没有推送新闻!";
+					} else if(JSON.stringify(map.newsthree)=="")
+					{
+						document.getElementById("newsthree").innerHTML="没有推送新闻!";
+					} else
+					{
+						document.getElementById("newsone").innerHTML=JSON.stringify(map.newsone).replace(/\"/g, "");
+						document.getElementById("newstwo").innerHTML=JSON.stringify(map.newstwo).replace(/\"/g, "");
+						document.getElementById("newsthree").innerHTML=JSON.stringify(map.newsthree).replace(/\"/g, "");
+						document.getElementById("newsfour").innerHTML=JSON.stringify(map.newsfour).replace(/\"/g, "");
+						document.getElementById("newsfive").innerHTML=JSON.stringify(map.newsfive).replace(/\"/g, "");
+						document.getElementById("newssix").innerHTML=JSON.stringify(map.newssix).replace(/\"/g, "");
+						document.getElementById("newsseven").innerHTML=JSON.stringify(map.newsseven).replace(/\"/g, "");
+						document.getElementById("newseight").innerHTML=JSON.stringify(map.newseight).replace(/\"/g, "");
+						/* document.getElementById("newseight").innerHTML=JSON.stringify("中国中央电视台").replace(/\"/g, ""); */
+						document.getElementById("newsnine").innerHTML=JSON.stringify(map.newsnine).replace(/\"/g, "");
+						document.getElementById("newste").innerHTML=JSON.stringify(map.newsone).replace(/\"/g, "");
+						document.getElementById("newsel").innerHTML=JSON.stringify(map.newstwo).replace(/\"/g, "");
+						document.getElementById("newstw").innerHTML=JSON.stringify(map.newsthree).replace(/\"/g, "");
+						document.getElementById("newsth").innerHTML=JSON.stringify(map.newsfour).replace(/\"/g, "");
+						document.getElementById("newsonedate").innerHTML=JSON.stringify(map.newsonedate).replace(/\"/g, "");
+						document.getElementById("newstwodate").innerHTML=JSON.stringify(map.newstwodate).replace(/\"/g, "");
+						document.getElementById("newsthreedate").innerHTML=JSON.stringify(map.newsthreedate).replace(/\"/g, "");
+						document.getElementById("newsfourdate").innerHTML=JSON.stringify(map.newsfourdate).replace(/\"/g, "");
+						document.getElementById("newsfivedate").innerHTML=JSON.stringify(map.newsfivedate).replace(/\"/g, "");
+						document.getElementById("newssixdate").innerHTML=JSON.stringify(map.newssixdate).replace(/\"/g, "");
+						document.getElementById("newssevendate").innerHTML=JSON.stringify(map.newssevendate).replace(/\"/g, "");
+						document.getElementById("newseightdate").innerHTML=JSON.stringify(map.newseightdate).replace(/\"/g, "");
+						document.getElementById("newsninedate").innerHTML=JSON.stringify(map.newsninedate).replace(/\"/g, "");
+						document.getElementById("newstedate").innerHTML=JSON.stringify(map.newsonedate).replace(/\"/g, "");
+						document.getElementById("newseldate").innerHTML=JSON.stringify(map.newstwodate).replace(/\"/g, "");
+						document.getElementById("newstwdate").innerHTML=JSON.stringify(map.newsthreedate).replace(/\"/g, "");
+						document.getElementById("newsthdate").innerHTML=JSON.stringify(map.newsfourdate).replace(/\"/g, "");
+					}
+				}
+			}
+		});
+	}
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
@@ -138,7 +228,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         	<div class="block_top_menu">
                             	<ul>
                                 	<li class="current"><a href="index.jsp">首页</a></li>
-                                    <li><a href="site_navigation.jsp">网站地图</a></li>
+                                    <!-- <li><a href="site_navigation.jsp">网站地图</a></li> -->
                                     <li><a href="confidentiality_agreement.jsp">用户注册协议</a></li>
                                     <li><a href="contact_us.jsp">联系我们</a></li>
                                 </ul>
@@ -296,268 +386,52 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         </div>
                         <div class="separator" style="height:30px;"></div>
                         
-                        <h2>公开活动</h2>
-                        
-                        <p class="general_subtitle">Eestablished fact that a reader will be distracted by the readable content of a page when looking at its layout are many variations of passages have suffered alteration.</p>
-                        
-                        <div class="line_4" style="margin:0px 0px 22px;"></div>
-                        
-                        <div class="block_main_news">
-                        	<article class="block_news_post_feature">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale"><img src="images/pic_main_news_big.jpg" alt="" /></a></div>
-                                <h4 class="title"><a href="news_post.html">Publishing packages and web page editors now use.</a></h4>
-                                
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    
-                                    <div class="r_part">
-                                    	<div class="category">
-                                        	<p><a href="#">Technology</a></p>
-                                        </div>
-                                        
-                                        <a href="#" class="views">220</a>
-                                    </div>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
+                        <article class="block_single_post">
+                        	<div class="f_pic"><a href="#"><img src="images/pic_blog_post_1.jpg" alt="" /></a></div>
+                          <p class="title"><a href="#" id="newstitle">公开活动展示</a></p>
+                            <p class="subtitle">公开活动的相关资讯</p>
                             
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_1.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">education</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
+                            <div class="info">
+                                <div class="date" ><p id="newsdate">没有创建时间</p></div>
+                                <div class="author"><p>作者: <a href="#" id="author">没有作者</a></p></div>
                                     
-                                    <div class="clearboth"></div>
+                            	<div class="r_part">
+                                	<div class="category"><p>分类: <a href="#">公开活动</a></p></div>
+                                    <!-- <a href="#" class="views">650</a> -->
+                                    <!-- <a href="#" class="comments">25</a> -->
                                 </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_2.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">business</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_3.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">photography</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_4.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">sport</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_5.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">business</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_6.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">video</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_7.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">education</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_8.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">business</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_9.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">sport</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_10.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">photography</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_11.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">sport</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_12.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">video</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_13.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">photographt</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_14.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">business</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_15.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">education</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_16.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">photography</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_17.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">business</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                            
-                            <article class="block_news_post">
-                            	<div class="f_pic"><a href="news_post.html" class="general_pic_hover scale_small"><img src="images/pic_main_news_18.jpg" alt="" /></a></div>
-                                <p class="category"><a href="#">Sport</a></p>
-                                <p class="title"><a href="news_post.html">Many desktop publishing packages and web page.</a></p>
-                                <div class="info">
-                                	<div class="date"><p>11 July, 2012</p></div>
-                                    <a href="#" class="views">183</a>
-                                    
-                                    <div class="clearboth"></div>
-                                </div>
-                            </article>
-                        </div>
-                        
-                        <div class="line_2" style="margin:8px 0px 25px;"></div>
-                        
-                        <div class="block_pager">
-                        	<a href="#" class="prev">Previous</a>
-                            <a href="#" class="next">Next</a>
-                            
-                            <div class="pages">
-                            	<ul>
-                                	<li><a href="#">1</a></li>
-                                    <li class="current"><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">6</a></li>
-                                </ul>
                             </div>
                             
-                            <div class="clearboth"></div>
-                        </div>
+                            <div class="content">
+                            	<p id="newscontent">没有新闻内容</p>
+                                <!-- <blockquote class="full">Going to use a passage you need to be sure there isn't anything embarrassing hidden in the middle of text. established fact that a reader will be distracted by the readable content.</blockquote>
+                                <p>Available, but the majority have suffered alteration.By injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. Established fact that a reader will be <a href="#" class="lnk_blue"><b>distracted by the readable</b></a> content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less.</p>
+                                
+                                <div class="separator" style="height:4px;"></div>
+                                <h6>Post image aligned to the left</h6>
+                                <div class="separator" style="height:4px;"></div>
+                                <a href="#" class="pic w_frame alignleft"><img src="images/pic_blog_post_2.jpg" alt="" /></a>
+                                <p>There are many variations of passages of available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage <b>need to be sure there isn't anything</b> embarrassing.</p>
+                                <p>Hidden in the middle of text. All the generators on the Internet tend to repeat predefined <a href="#" class="lnk_blue"><b>chunks as necessary</b></a>, making this the.</p>
+                                <p>Available, but the majority have suffered alteration.By injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. Established fact that a reader will be distracted by the readable content of a page when looking at its layout. The <b>point of using Lorem Ipsum</b> is that it has a more-or-less.</p> -->
+                            </div>
+                            
+                            <!-- <div class="line_3" style="margin:4px 0px 23px;"></div>
+                        	
+                            <div class="about_author">
+                            	<h4>About the Author</h4>
+                                
+                            	<div class="photo"><a href="#"><img src="images/ava_default_3.jpg" alt="" /></a></div>
+                                <div class="bio">
+                                	<p class="name"><a href="#">Roman Polyarush</a></p>
+                                    <p>Fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution.</p>
+                                </div>
+                                
+                                <div class="clearboth"></div>
+                            </div>
+                             -->
+                            <div class="line_3" style="margin:17px 0px 23px;"></div>
+                        </article>
                         
                     </div>
                     
@@ -565,22 +439,22 @@ script type="text/javascript" src="layout/js/main.js"></script>
                     	<div class="block_subscribes_sidebar">
                         	<div class="service">
                             	<a href="#" class="qqzone" onclick="shareQQzone()">
-                                	<span class="num">11 234</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">QQ空间</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                             
                             <div class="service">
                             	<a href="#" class="xl" onclick="shareSina()">
-                                	<span class="num">781</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">新浪微博</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                             
                             <div class="service" onclick="shareQQ()">
                             	<a href="#" class="qq">
-                                	<span class="num">341</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">QQ</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                         </div>
@@ -593,18 +467,18 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         	<div class="article">
 								<div class="pic">
 									<a href="#" class="w_hover">
-										<img src="images/news_post.png" alt="" />
+										<img src="images/news_post.png" onload="getPostNews()" alt="" />
 										<span></span>
 									</a>
 								</div>
                                         
 								<div class="text">
-									<p class="title"><a href="#">不忘初心，牢记使命，启航上理“新时代”</a></p>
-									<div class="date"><p>11 July, 2012</p></div>
+									<p class="title"><a href="#" id="newsone">没有新闻</a></p>
+									<div class="date"><p id="newsonedate">创建时间为空</p></div>
                                     <div class="icons">
                                     	<ul>
                                         	<li><a href="#" class="views">41</a></li>
-                                            <li><a href="#" class="comments">22</a></li>
+                                            <!-- <li><a href="#" class="comments">22</a></li> -->
                                         </ul>
                                     </div>
 								</div>
@@ -620,12 +494,12 @@ script type="text/javascript" src="layout/js/main.js"></script>
 								</div>
                                         
 								<div class="text">
-									<p class="title"><a href="#">学校认真组织干部师生收看党的十九大开幕式盛况</a></p>
-									<div class="date"><p>07 July, 2012</p></div>
+									<p class="title"><a href="#" id="newstwo">没有新闻</a></p>
+									<div class="date"><p id="newstwodate">创建时间为空</p></div>
                                     <div class="icons">
                                     	<ul>
                                         	<li><a href="#" class="views">24</a></li>
-                                            <li><a href="#" class="comments">16</a></li>
+                                            <!-- <li><a href="#" class="comments">16</a></li> -->
                                         </ul>
                                     </div> 
 								</div>
@@ -641,12 +515,12 @@ script type="text/javascript" src="layout/js/main.js"></script>
 								</div>
                                         
 								<div class="text">
-									<p class="title"><a href="#">上海理工大学马克思主义经典著作阅读马拉松侧记</a></p>
-									<div class="date"><p>05 July, 2012</p></div>
+									<p class="title"><a href="#" id="newsthree">没有新闻</a></p>
+									<div class="date"><p id="newsthreedate">创建时间为空</p></div>
                                     <div class="icons">
                                     	<ul>
                                         	<li><a href="#" class="views">33</a></li>
-                                            <li><a href="#" class="comments">25</a></li>
+                                            <!-- <li><a href="#" class="comments">25</a></li> -->
                                         </ul>
                                     </div>
 								</div>
@@ -660,7 +534,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         	<h4>热点视频</h4>
                             
                             <div class="content">
-                            	<a href="#" class="view_all">显示所有视频</a>
+                            	<!-- <a href="#" class="view_all">显示所有视频</a> -->
                             	<div class="media"><a href="http://www.youtube.com/watch?v=ySIvism2af8" class="general_pic_hover play no_fx" data-rel="prettyPhoto" title="Popular Video"><img src="images/pic_pop_video.jpg" alt="" /></a></div>
                                 <p><a href="blog_post_w_video.html">第十四届“秋炫沪江”研究生科技文化节开幕式暨职业启航公开课第三讲隆重举行
 </a> <img src="images/icon_video.gif" alt="" /></p>
@@ -669,7 +543,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                             
                             <div class="info">
                             	<ul>
-                                	<li class="comments"><a href="#">115</a></li>
+                                	<!-- <li class="comments"><a href="#">115</a></li> -->
                                     <li class="views"><a href="#">220</a></li>
                                 </ul>
                             </div>
@@ -715,7 +589,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         	<h4>热点图片</h4>
                             
                             <div class="content">
-                            	<a href="#" class="view_all">显示所有图片</a>
+                            	<<!-- a href="#" class="view_all">显示所有图片</a> -->
                             	<div class="media"><a href="images/pic_pop_photo_big.jpg" class="general_pic_hover zoom no_fx" data-rel="prettyPhoto" title="Popular Photo"><img src="images/pic_pop_photo.jpg" alt="" /></a></div>
                                 <p><a href="blog_post_w_slider.html">机械设计制造及其自动化专业顺利通过专家组进校考查</a> <img src="images/icon_photo.gif" alt="" /></p>
                                 <p class="date">11 July, 2012</p>
@@ -723,7 +597,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                             
                             <div class="info">
                             	<ul>
-                                	<li class="comments"><a href="#">100</a></li>
+                                	<!-- <li class="comments"><a href="#">100</a></li> -->
                                     <li class="views"><a href="#">134</a></li>
                                 </ul>
                             </div>
@@ -735,7 +609,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         
                       	<div class="separator" style="height:31px;"></div>
                         
-                        <div class="block_newsletter">
+                        <!-- <div class="block_newsletter">
                         	<h4>新闻来信</h4>
                             
                             <form action="#" />
@@ -744,7 +618,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                                 
                                 <div class="clearboth"></div>
                             </form>
-                        </div>
+                        </div> -->
                         
                     </div>
                     
@@ -791,7 +665,7 @@ script type="text/javascript" src="layout/js/main.js"></script>
                         	<div class="block_menu_footer">
                             	<ul>
                                 	<!-- <li><a href="index.jsp">首页</a></li> -->
-                                    <li><a href="site_navigation.jsp">网站地图</a></li>
+                                    <!-- <li><a href="site_navigation.jsp">网站地图</a></li> -->
                                     <li><a href="confidentiality_agreement.jsp">用户注册协议</a></li>
                                     <li><a href="contact_us.jsp">联系我们</a></li>
                                 </ul>

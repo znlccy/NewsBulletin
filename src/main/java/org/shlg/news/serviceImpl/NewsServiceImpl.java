@@ -221,5 +221,16 @@ public class NewsServiceImpl implements INewsService {
 		// TODO Auto-generated method stub
 		return newsDao.modifyNews(news);
 	}
+	
+	/* 
+	 * 插入新闻图片
+	 * (non-Javadoc)
+	 * @see org.shlg.news.service.INewsService#addNewsPicture(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean addNewsPicture(String filePath,News news) {
+		// TODO Auto-generated method stub
+		return newsDao.addNewsPicture(filePath, news);
+	}
 
 }

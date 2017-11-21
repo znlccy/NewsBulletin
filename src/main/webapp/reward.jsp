@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<div class="block_top_menu">
                             	<ul>
                                 	<li class="current"><a href="index.jsp">首页</a></li>
-                                    <li><a href="site_navigation.jsp">网站地图</a></li>
+                                    <!-- <li><a href="site_navigation.jsp">网站地图</a></li> -->
                                     <li><a href="confidentiality_agreement.jsp">用户注册协议</a></li>
                                     <li><a href="contact_us.jsp">联系我们</a></li>
                                 </ul>
@@ -565,23 +565,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="sidebar">
                     	<div class="block_subscribes_sidebar">
                         	<div class="service">
-                            	<a href="#" class="wx">
-                                	<span class="num">11 234</span>
-                                    <span class="people">关注者</span>
+                            	<a href="#" class="qqzone" onclick="shareQQzone()">
+                                	<span class="num">QQ空间</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                             
                             <div class="service">
-                            	<a href="#" class="xl">
-                                	<span class="num">781</span>
-                                    <span class="people">关注者</span>
+                            	<a href="#" class="xl" onclick="shareSina()">
+                                	<span class="num">新浪微博</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                             
-                            <div class="service">
+                            <div class="service" onclick="shareQQ()">
                             	<a href="#" class="qq">
-                                	<span class="num">341</span>
-                                    <span class="people">关注者</span>
+                                	<span class="num">QQ</span>
+                                    <span class="people">分享</span>
                                 </a>
                             </div>
                         </div>
@@ -736,7 +736,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         
                       	<div class="separator" style="height:31px;"></div>
                         
-                        <div class="block_newsletter">
+                        <!-- <div class="block_newsletter">
                         	<h4>新闻来信</h4>
                             
                             <form action="#" />
@@ -745,7 +745,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 
                                 <div class="clearboth"></div>
                             </form>
-                        </div>
+                        </div> -->
                         
                     </div>
                     
@@ -792,7 +792,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	<div class="block_menu_footer">
                             	<ul>
                                 	<!-- <li><a href="index.jsp">首页</a></li> -->
-                                    <li><a href="site_navigation.jsp">网站地图</a></li>
+                                    <!-- <li><a href="site_navigation.jsp">网站地图</a></li> -->
                                     <li><a href="confidentiality_agreement.jsp">用户注册协议</a></li>
                                     <li><a href="contact_us.jsp">联系我们</a></li>
                                 </ul>

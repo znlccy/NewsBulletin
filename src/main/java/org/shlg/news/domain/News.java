@@ -62,7 +62,7 @@ public class News {
 	/**
 	 * 声明新闻类型
 	 */
-	private int newsType;
+	private String newsType;
 	
 	/**
 	 * 声明新闻的重要性
@@ -107,7 +107,7 @@ public class News {
 	 */
 	public News(String newsId, String newsTitle, String newsContent,
 			Date newsCreateTime, int newsViewCount, int newsFollow,
-			int newsSecriber, int newsType, int newsPrivilege,
+			int newsSecriber, String newsType, int newsPrivilege,
 			byte[] newsPicture, byte[] newsVideo,String author) {
 		super();
 		this.newsId = newsId;
@@ -131,7 +131,7 @@ public class News {
 	@Id
 	@GenericGenerator(name="uuid",strategy="uuid")
 	@GeneratedValue(generator="uuid")
-	@Column(name="newsId",length=12,nullable=false,insertable=true,updatable=true,unique=true)
+	@Column(name="newsId",length=300,nullable=false,insertable=true,updatable=true,unique=true)
 	public String getNewsId() {
 		return newsId;
 	}
@@ -250,8 +250,8 @@ public class News {
 	 * 声明获得新闻类型的方法
 	 * @return
 	 */
-	@Column(name="newsType",length=8,nullable=true,insertable=true,updatable=true)
-	public int getNewsType() {
+	@Column(name="newsType",length=300,nullable=true,insertable=true,updatable=true)
+	public String getNewsType() {
 		return newsType;
 	}
 
@@ -259,7 +259,7 @@ public class News {
 	 * 声明设置新闻类型的方法
 	 * @param newsType
 	 */
-	public void setNewsType(int newsType) {
+	public void setNewsType(String newsType) {
 		this.newsType = newsType;
 	}
 

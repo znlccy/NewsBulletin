@@ -170,7 +170,6 @@
 	</dependency>
 	
 	<!-- 引入JSTL标准库 -->
-	<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 	<dependency>
 	    <groupId>jstl</groupId>
 	    <artifactId>jstl</artifactId>
@@ -178,11 +177,24 @@
 	</dependency>
 	
 	<!-- 引入标签库 -->
-	<!-- https://mvnrepository.com/artifact/taglibs/standard -->
 	<dependency>
 	    <groupId>taglibs</groupId>
 	    <artifactId>standard</artifactId>
 	    <version>1.1.2</version>
+	</dependency>
+	
+	<!-- 声明json数据的核心应用jar包 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>2.8.8</version>
+	</dependency>
+	
+	<!-- 声明json数据的数据绑定jar包 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.8.8</version>
 	</dependency>
 	
   </dependencies>

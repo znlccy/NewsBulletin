@@ -48,6 +48,23 @@
         <!-- 启动SpringMVC的注解配置 -->
         <context:annotation-config />
         
+       <!--  配置SpringMVC解释Json数据 -->
+        <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+		    <property name="messageConverters">  
+		        <list>  
+		            <ref bean="jsonHttpMessageConverter" />  
+		        </list>  
+		    </property>  
+		</bean>  
+ 		<!--  配置SpringMVC解释Json数据 -->
+		<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+		    <property name="supportedMediaTypes">  
+		        <list>  
+		            <value>application/json;charset=UTF-8</value>  
+		        </list>  
+		    </property>  
+		</bean> 
+        
         <!-- 上传或下载 -->
 		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 			<property name="defaultEncoding" value="utf-8"></property>

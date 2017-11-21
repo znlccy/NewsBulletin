@@ -1,9 +1,17 @@
 package org.shlg.news.daoImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.shlg.news.dao.IEcommerceDevelopDatabaseDao;
 import org.shlg.news.domain.EcommerceDevelopDatabase;
+import org.shlg.news.domain.News;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,11 +24,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EcommerceDevelopDatabaseDaoImpl implements IEcommerceDevelopDatabaseDao {
 
-	/* 
-	 * 声明添加电子商务发展数据库
-	 * (non-Javadoc)
-	 * @see org.shlg.news.dao.IEcommerceDevelopDatabaseDao#addEcommerceDevelopDatabase(org.shlg.news.domain.EcommerceDevelopDatabase)
-	 */
 	@Override
 	public boolean addEcommerceDevelopDatabase(
 			EcommerceDevelopDatabase ecommerceDevelopDatabase) {
@@ -28,11 +31,6 @@ public class EcommerceDevelopDatabaseDaoImpl implements IEcommerceDevelopDatabas
 		return false;
 	}
 
-	/* 
-	 * 查询所有电子商务发展数据库
-	 * (non-Javadoc)
-	 * @see org.shlg.news.dao.IEcommerceDevelopDatabaseDao#queryAllEcommerceDevelopDatabase()
-	 */
 	@Override
 	public List<EcommerceDevelopDatabase> queryAllEcommerceDevelopDatabase() {
 		// TODO Auto-generated method stub
@@ -89,5 +87,7 @@ public class EcommerceDevelopDatabaseDaoImpl implements IEcommerceDevelopDatabas
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
 
 }
